@@ -1,0 +1,63 @@
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.home-title {
+  font-size: 3rem;
+  color: #b2cfdc;
+  margin-bottom: 120px;
+}
+
+.home-button {
+  font-size: 2rem !important;
+  padding: 10px 20px !important;
+  border-radius: 10px !important;
+  color: white !important;
+
+  &:hover {
+    color: #b2cfdc !important;
+  }
+}
+
+.home-image {
+  display: flex;
+  justify-content: center;
+}
+
+.home-image img {
+  max-width: 100%; // Obrazek dopasowuje się do szerokości
+  height: auto; // Zachowanie proporcji
+  border-radius: 10px; // Opcjonalne zaokrąglenie rogów
+}
+
+// Media queries dla mniejszych ekranów
+@media (max-width: 768px) {
+  .home-content {
+    flex-direction: column-reverse; // Układ pionowy (obrazek na górze, tekst poniżej)
+  }
+
+  .home-image {
+    margin-bottom: 20px; // Odstęp między obrazkiem a tekstem
+  }
+
+  .home-title {
+    font-size: 2rem; // Mniejszy rozmiar tytułu
+  }
+
+  .home-button {
+    font-size: 0.9rem; // Mniejszy rozmiar przycisku
+    padding: 8px 16px;
+  }
+}
