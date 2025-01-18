@@ -37,27 +37,27 @@
 }
 
 .home-image img {
-  max-width: 100%; // Obrazek dopasowuje się do szerokości
-  height: auto; // Zachowanie proporcji
-  border-radius: 10px; // Opcjonalne zaokrąglenie rogów
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 
 // Media queries dla mniejszych ekranów
 @media (max-width: 768px) {
   .home-content {
-    flex-direction: column-reverse; // Układ pionowy (obrazek na górze, tekst poniżej)
+    flex-direction: column-reverse;
   }
 
   .home-image {
-    margin-bottom: 20px; // Odstęp między obrazkiem a tekstem
+    margin-bottom: 20px;
   }
 
   .home-title {
-    font-size: 2rem; // Mniejszy rozmiar tytułu
+    font-size: 2rem;
   }
 
   .home-button {
-    font-size: 0.9rem; // Mniejszy rozmiar przycisku
+    font-size: 0.9rem;
     padding: 8px 16px;
   }
 }
