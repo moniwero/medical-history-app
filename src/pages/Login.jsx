@@ -32,20 +32,29 @@ const Login = () => {
         });
 
       if (loginError) {
-        const { data: signUpData, error: signUpError } =
-          await supabase.auth.signUp({
-            email,
-            password,
-          });
+        console.error("Login error:", loginError.message);
 
-        if (signUpError) {
-          setError(signUpError.message);
+        if (loginError.message === "Invalid login credentials") {
+          const { data: signUpData, error: signUpError } =
+            await supabase.auth.signUp({
+              email,
+              password,
+            });
+
+          if (signUpError) {
+            setError(signUpError.message);
+            console.error("Sign-up error:", signUpError.message);
+          } else {
+            console.log(
+              "Zarejestrowano i zalogowano użytkownika:",
+              signUpData.user
+            );
+            navigate("/dashboard");
+          }
         } else {
-          console.log(
-            "Zarejestrowano i zalogowano użytkownika:",
-            signUpData.user
+          setError(
+            "Wystąpił błąd logowania. Sprawdź swoje dane i spróbuj ponownie."
           );
-          navigate("/dashboard");
         }
       } else {
         console.log("Użytkownik zalogowany:", loginData.user);

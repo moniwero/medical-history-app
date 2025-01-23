@@ -46,14 +46,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; // Wysokość pełnego ekranu
-  background-color: #254e72; // Dopasowanie koloru tła do reszty strony
-  color: #b2cfdc; // Kolor tekstu
-  font-size: 2rem; // Rozmiar tekstu
+  height: 100vh;
+  background-color: #254e72;
+  color: #b2cfdc;
+  font-size: 2rem;
   font-weight: bold;
 }
 
-// Media queries dla mniejszych ekranów
+.user-link {
+  color: white !important;
+  font-size: 2rem !important;
+  margin-bottom: 50px !important;
+}
+
 @media (max-width: 768px) {
   .home-content {
     flex-direction: column-reverse;

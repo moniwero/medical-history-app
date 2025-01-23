@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../services/supabase";
@@ -12,8 +12,24 @@ const Home = () => {
 
   // Funkcja do weryfikacji stanu użytkownika
   const checkUser = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    setUser(session?.user ?? null); // Ustawia użytkownika, jeśli jest zalogowany
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session) {
+      setUser(session.user); // Ustawienie użytkownika
+    } else {
+      // Próbuj odświeżyć sesję, jeśli jej nie ma
+      const { data: refreshedSession, error } =
+        await supabase.auth.refreshSession();
+      if (refreshedSession) {
+        setUser(refreshedSession.user);
+      } else {
+        console.error("Nie udało się odświeżyć sesji:", error);
+        setUser(null);
+      }
+    }
+
     setLoading(false); // Koniec ładowania
   };
 
@@ -22,9 +38,11 @@ const Home = () => {
     checkUser();
 
     // Nasłuchiwanie zmian w stanie użytkownika
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
 
     // Sprzątanie po nasłuchiwaniu
     return () => {
@@ -52,13 +70,24 @@ const Home = () => {
         <div className="home-text">
           <h1 className="home-title">Moja dokumentacja medyczna</h1>
           {user ? (
-            <Button
-              variant="contained"
-              className="home-button"
-              onClick={handleLogout}
-            >
-              Wyloguj
-            </Button>
+            <>
+              <div className="user-info">
+                <Link
+                  component="button"
+                  onClick={() => navigate("/dashboard")}
+                  className="user-link"
+                >
+                  {user.email}
+                </Link>
+              </div>
+              <Button
+                variant="contained"
+                className="home-button"
+                onClick={handleLogout}
+              >
+                Wyloguj
+              </Button>
+            </>
           ) : (
             <Button
               variant="contained"
