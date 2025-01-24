@@ -15,12 +15,32 @@ const AddResult = () => {
     e.preventDefault();
 
     try {
+      // Pobranie aktualnie zalogowanego użytkownika
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser();
+
+      if (authError || !user) {
+        alert("Musisz być zalogowany, aby dodać wynik!");
+        return;
+      }
+
+      // Upload pliku
       const imageData = await uploadImage(file);
-      await supabase.from("results").insert({
-        category,
-        description,
-        image_url: imageData.path,
-      });
+
+      // Wstawienie rekordu do tabeli `results`
+      const { error } = await supabase.from("results").insert([
+        {
+          category,
+          description,
+          image_url: imageData.path,
+          user_id: user.id,
+        },
+      ]);
+
+      if (error) throw error;
+
       alert("Result added successfully!");
     } catch (error) {
       alert("Error uploading result: " + error.message);
