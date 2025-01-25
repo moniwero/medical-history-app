@@ -32,6 +32,54 @@ const Results = () => {
     fetchResults();
   }, [category]);
 
+  // Funkcja do usuwania wyniku (z bazy i Storage)
+  const handleDelete = async (resultId, imageUrl) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć ten wynik?")) return;
+
+    try {
+      //  Usunięcie pliku z Supabase Storage
+      if (imageUrl) {
+        // Pobieranie tylko ścieżki względnej (usuwamy bazowy URL)
+        const { data: storageData } = supabase.storage
+          .from("results")
+          .getPublicUrl("");
+        const baseUrl = storageData.publicUrl;
+
+        const imagePath = imageUrl.replace(baseUrl, "").replace(/^\/+/, ""); // Usunięcie pierwszego `/`
+
+        const { error: storageError } = await supabase.storage
+          .from("results")
+          .remove([imagePath]);
+
+        if (storageError) {
+          console.error("❌ Błąd usuwania obrazu:", storageError.message);
+        } else {
+          console.log("✅ Obraz usunięty z Supabase Storage");
+        }
+      }
+
+      // 🗄️ 2. Usunięcie wpisu z tabeli `results`
+      const { error: dbError } = await supabase
+        .from("results")
+        .delete()
+        .eq("id", resultId);
+
+      if (dbError) {
+        console.error("❌ Błąd usuwania rekordu z bazy:", dbError.message);
+        return;
+      } else {
+        console.log("✅ Wpis usunięty z bazy danych");
+      }
+
+      // 🔄 3. Aktualizacja widoku
+      setResults((prevResults) =>
+        prevResults.filter((result) => result.id !== resultId)
+      );
+    } catch (error) {
+      console.error("❌ Błąd:", error.message);
+    }
+  };
+
   if (loading) {
     return <div className="results-loading">Ładowanie wyników...</div>;
   }
@@ -60,6 +108,15 @@ const Results = () => {
             >
               <p>
                 <strong>Opis:</strong> {result.description}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Zapobiega przejściu do szczegółów
+                    handleDelete(result.id, result.image_url);
+                  }}
+                  className="delete-button"
+                >
+                  ❌
+                </button>
               </p>
             </div>
           ))

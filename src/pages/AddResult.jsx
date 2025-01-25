@@ -41,7 +41,7 @@ const AddResult = () => {
         {
           category,
           description,
-          image_url: imageData.path, //Zapisujemy ścieżkę do obrazu w bazie, ale z path jest NULL
+          image_url: imageData, //Zapisujemy ścieżkę do obrazu w bazie, ale z path jest NULL!!
           user_id: user.id, // Musi pasować do polityki RLS!!!!
         },
       ]);
