@@ -11,6 +11,7 @@ const AddResult = () => {
 
   const navigate = useNavigate();
 
+  // Funkcja do obsługi wysyłania formularza
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,13 +30,19 @@ const AddResult = () => {
       // Upload pliku
       const imageData = await uploadImage(file);
 
+      console.log("🔍 Ścieżka do pliku po uploadzie:", imageData);
+      console.log(
+        "🔍 Ścieżka do obrazu przed zapisaniem do bazy:",
+        imageData?.path
+      );
+
       // Wstawienie rekordu do tabeli `results`
       const { error } = await supabase.from("results").insert([
         {
           category,
           description,
-          image_url: imageData.path,
-          user_id: user.id,
+          image_url: imageData.path, //Zapisujemy ścieżkę do obrazu w bazie, ale z path jest NULL
+          user_id: user.id, // Musi pasować do polityki RLS!!!!
         },
       ]);
 

@@ -6,7 +6,7 @@ import { supabase } from "../services/supabase";
 import "../styles/Results.scss";
 
 const Results = () => {
-  const { category } = useParams();
+  const { category } = useParams(); // Kategoria pobrana z URL
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +18,7 @@ const Results = () => {
       const { data, error } = await supabase
         .from("results")
         .select("*")
-        .eq("category", category);
+        .ilike("category", category); // Pobieranie wyników dla tej kategorii
 
       if (error) {
         console.error("Błąd podczas pobierania wyników:", error.message);
@@ -51,13 +51,13 @@ const Results = () => {
       <div className="results-list">
         {results.length > 0 ? (
           results.map((result) => (
-            <div key={result.id} className="result-item">
-              <p>
-                <strong>Nazwa:</strong> {result.name}
-              </p>
-              <p>
-                <strong>Data:</strong> {result.date}
-              </p>
+            <div
+              key={result.id}
+              className="result-item"
+              onClick={() =>
+                navigate(`/details/${result.user_id}`, { state: { result } })
+              }
+            >
               <p>
                 <strong>Opis:</strong> {result.description}
               </p>
