@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Button, Modal, Box } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../services/supabase";
 import "../styles/Results.scss";
 
 const Results = () => {
-  const { category } = useParams(); // Kategoria pobrana z URL
+  const { category } = useParams();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [selectedImage, setSelectedImage] = useState(null); // Przechowuje pełny URL obrazka
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +17,7 @@ const Results = () => {
       const { data, error } = await supabase
         .from("results")
         .select("*")
-        .ilike("category", category); // Pobieranie wyników dla tej kategorii
+        .ilike("category", category);
 
       if (error) {
         console.error("Błąd podczas pobierania wyników:", error.message);
@@ -32,20 +31,24 @@ const Results = () => {
     fetchResults();
   }, [category]);
 
+  // Pobieranie publicznego URL obrazu przed otwarciem modala
+  const handleOpenModal = async (imagePath) => {
+    if (!imagePath) return;
+
+    const { data } = supabase.storage.from("results").getPublicUrl(imagePath);
+    setSelectedImage(data.publicUrl);
+  };
+
   // Funkcja do usuwania wyniku (z bazy i Storage)
   const handleDelete = async (resultId, imageUrl) => {
     if (!window.confirm("Czy na pewno chcesz usunąć ten wynik?")) return;
 
     try {
-      //  Usunięcie pliku z Supabase Storage
+      // Usunięcie pliku z Supabase Storage
       if (imageUrl) {
-        // Pobieranie tylko ścieżki względnej (usuwamy bazowy URL)
-        const { data: storageData } = supabase.storage
-          .from("results")
-          .getPublicUrl("");
+        const { data: storageData } = supabase.storage.from("results").getPublicUrl("");
         const baseUrl = storageData.publicUrl;
-
-        const imagePath = imageUrl.replace(baseUrl, "").replace(/^\/+/, ""); // Usunięcie pierwszego `/`
+        const imagePath = imageUrl.replace(baseUrl, "").replace(/^\/+/, "");
 
         const { error: storageError } = await supabase.storage
           .from("results")
@@ -58,11 +61,8 @@ const Results = () => {
         }
       }
 
-      // 🗄️ 2. Usunięcie wpisu z tabeli `results`
-      const { error: dbError } = await supabase
-        .from("results")
-        .delete()
-        .eq("id", resultId);
+      // Usunięcie wpisu z tabeli `results`
+      const { error: dbError } = await supabase.from("results").delete().eq("id", resultId);
 
       if (dbError) {
         console.error("❌ Błąd usuwania rekordu z bazy:", dbError.message);
@@ -71,10 +71,8 @@ const Results = () => {
         console.log("✅ Wpis usunięty z bazy danych");
       }
 
-      // 🔄 3. Aktualizacja widoku
-      setResults((prevResults) =>
-        prevResults.filter((result) => result.id !== resultId)
-      );
+      // Aktualizacja widoku
+      setResults((prevResults) => prevResults.filter((result) => result.id !== resultId));
     } catch (error) {
       console.error("❌ Błąd:", error.message);
     }
@@ -87,11 +85,7 @@ const Results = () => {
   return (
     <div className="results-container">
       <div className="results-header">
-        <Button
-          variant="text"
-          className="results-back-button"
-          onClick={() => navigate("/categories")}
-        >
+        <Button variant="text" className="results-back-button" onClick={() => navigate("/categories")}>
           Wstecz
         </Button>
       </div>
@@ -102,15 +96,13 @@ const Results = () => {
             <div
               key={result.id}
               className="result-item"
-              onClick={() =>
-                navigate(`/details/${result.user_id}`, { state: { result } })
-              }
+              onClick={() => handleOpenModal(result.image_url)} // Pobiera publiczny URL przed otwarciem modala
             >
               <p>
                 <strong>Opis:</strong> {result.description}
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); // Zapobiega przejściu do szczegółów
+                    e.stopPropagation(); // Zapobiega otwieraniu modala
                     handleDelete(result.id, result.image_url);
                   }}
                   className="delete-button"
@@ -124,6 +116,14 @@ const Results = () => {
           <p className="no-results">Brak wyników w tej kategorii.</p>
         )}
       </div>
+
+      {/* Modal do wyświetlania obrazu */}
+      <Modal open={!!selectedImage} onClose={() => setSelectedImage(null)}>
+        <Box className="modal-box">
+          <button className="close-modal" onClick={() => setSelectedImage(null)}>✖</button>
+          {selectedImage && <img src={selectedImage} alt="Wynik" className="modal-image" />}
+        </Box>
+      </Modal>
     </div>
   );
 };

@@ -7,7 +7,6 @@ import Dashboard from "./pages/Dashboard";
 import Categories from "./pages/Categories";
 import Results from "./pages/Results";
 import AddResult from "./pages/AddResult";
-import Details from "./pages/Details";
 
 function AppRouter() {
   return (
@@ -19,7 +18,6 @@ function AppRouter() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/results/:category" element={<Results />} />
         <Route path="/add-result" element={<AddResult />} />
-        <Route path="/details/:user_id" element={<Details />} />
       </Routes>
     </Router>
   );
