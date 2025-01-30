@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Box } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { supabase } from "../services/supabase";
+import BackButton from "../components/BackButton";
+import DeleteButton from "../components/DeleteButton";
+import CustomModal from "../components/Modal";
 import "../styles/Results.scss";
 
 const Results = () => {
   const { category } = useParams();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null); // Przechowuje pełny URL obrazka
-  const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -20,7 +21,7 @@ const Results = () => {
         .ilike("category", category);
 
       if (error) {
-        console.error("Błąd podczas pobierania wyników:", error.message);
+        console.error("❌ Błąd pobierania wyników:", error.message);
       } else {
         setResults(data);
       }
@@ -31,7 +32,7 @@ const Results = () => {
     fetchResults();
   }, [category]);
 
-  // Pobieranie publicznego URL obrazu przed otwarciem modala
+  // 📤 Pobieranie publicznego URL przed otwarciem modala
   const handleOpenModal = async (imagePath) => {
     if (!imagePath) return;
 
@@ -39,17 +40,12 @@ const Results = () => {
     setSelectedImage(data.publicUrl);
   };
 
-  // Funkcja do usuwania wyniku (z bazy i Storage)
-  const handleDelete = async (resultId, imageUrl) => {
+  // 🗑 Usuwanie wyniku
+  const handleDelete = async (resultId, imagePath) => {
     if (!window.confirm("Czy na pewno chcesz usunąć ten wynik?")) return;
 
     try {
-      // Usunięcie pliku z Supabase Storage
-      if (imageUrl) {
-        const { data: storageData } = supabase.storage.from("results").getPublicUrl("");
-        const baseUrl = storageData.publicUrl;
-        const imagePath = imageUrl.replace(baseUrl, "").replace(/^\/+/, "");
-
+      if (imagePath) {
         const { error: storageError } = await supabase.storage
           .from("results")
           .remove([imagePath]);
@@ -61,18 +57,15 @@ const Results = () => {
         }
       }
 
-      // Usunięcie wpisu z tabeli `results`
-      const { error: dbError } = await supabase.from("results").delete().eq("id", resultId);
+      // 🗄️ Usunięcie wpisu z bazy
+      const { error: dbError } = await supabase
+        .from("results")
+        .delete()
+        .eq("id", resultId);
+      if (dbError) throw dbError;
 
-      if (dbError) {
-        console.error("❌ Błąd usuwania rekordu z bazy:", dbError.message);
-        return;
-      } else {
-        console.log("✅ Wpis usunięty z bazy danych");
-      }
-
-      // Aktualizacja widoku
-      setResults((prevResults) => prevResults.filter((result) => result.id !== resultId));
+      console.log("✅ Wpis usunięty");
+      setResults((prevResults) => prevResults.filter((r) => r.id !== resultId));
     } catch (error) {
       console.error("❌ Błąd:", error.message);
     }
@@ -85,31 +78,23 @@ const Results = () => {
   return (
     <div className="results-container">
       <div className="results-header">
-        <Button variant="text" className="results-back-button" onClick={() => navigate("/categories")}>
-          Wstecz
-        </Button>
+        <BackButton to="/categories" />
       </div>
-      <h1 className="results-title">Wyniki dla kategorii: {category}</h1>
+      <h1>Wyniki dla kategorii: {category}</h1>
       <div className="results-list">
         {results.length > 0 ? (
           results.map((result) => (
             <div
               key={result.id}
               className="result-item"
-              onClick={() => handleOpenModal(result.image_url)} // Pobiera publiczny URL przed otwarciem modala
+              onClick={() => handleOpenModal(result.image_url)}
             >
-              <p>
-                <strong>Opis:</strong> {result.description}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // Zapobiega otwieraniu modala
-                    handleDelete(result.id, result.image_url);
-                  }}
-                  className="delete-button"
-                >
-                  ❌
-                </button>
-              </p>
+              <p className="result-info">{result.description}</p>
+              <div>
+                <DeleteButton
+                  onClick={() => handleDelete(result.id, result.image_url)}
+                />
+              </div>
             </div>
           ))
         ) : (
@@ -117,13 +102,15 @@ const Results = () => {
         )}
       </div>
 
-      {/* Modal do wyświetlania obrazu */}
-      <Modal open={!!selectedImage} onClose={() => setSelectedImage(null)}>
-        <Box className="modal-box">
-          <button className="close-modal" onClick={() => setSelectedImage(null)}>✖</button>
-          {selectedImage && <img src={selectedImage} alt="Wynik" className="modal-image" />}
-        </Box>
-      </Modal>
+      {/* 🖼 Modal ze zdjęciem */}
+      <CustomModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+      >
+        {selectedImage && (
+          <img src={selectedImage} alt="Wynik" className="modal-image" />
+        )}
+      </CustomModal>
     </div>
   );
 };
