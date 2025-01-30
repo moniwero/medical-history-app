@@ -93,11 +93,14 @@ const Login = () => {
 
       <Button
         variant="contained"
-        className="login-button"
+        className="button"
         onClick={handleLoginOrRegister}
       >
         Zaloguj
       </Button>
+      <p className="login-info">
+        Pierwsze logowanie jest również rejestracją. Zapamiętaj hasło!
+      </p>
     </div>
   );
 };

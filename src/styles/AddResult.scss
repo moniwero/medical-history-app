@@ -1,0 +1,83 @@
+.addresult-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+}
+
+.addresult-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.addresult-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  background: transparent;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 3px solid #3533cd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.file-input {
+  display: none; // Ukrywa domyślny input
+}
+
+.file-select {
+  border: 1px solid #3533cd;
+  border-radius: 5px;
+  .MuiInputLabel-root {
+    color: white !important;
+  }
+}
+
+.text-field {
+  border: 1px solid #3533cd !important;
+  border-radius: 5px;
+  color: white;
+  .MuiInputLabel-root {
+    color: white !important;
+  }
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  background: linear-gradient(to right, #5754f9, #231c82);
+  border: 1px solid black !important;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.file-label:hover {
+  background: linear-gradient(to right, #3c3ad6, #1a145e);
+}
+
+.file-name {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+}

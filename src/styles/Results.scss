@@ -4,19 +4,25 @@
 
 .results-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .result-item {
-  width: 200px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
+  display: flex;
+  justify-content: start;
+  align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.result-item:hover {
+.result-info {
+  border: 1px solid #ccc;
+  width: 320px;
+  margin-right: 10px;
+  padding: 3px;
+}
+
+.result-info:hover {
   background-color: #f0f0f0;
 }
 

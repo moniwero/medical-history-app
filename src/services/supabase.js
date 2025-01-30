@@ -5,6 +5,7 @@
 // https://iqulcbywphjewenalnex.supabase.co
 
 import { createClient } from "@supabase/supabase-js";
+import { v4 as uuidv4 } from "uuid";
 
 const supabaseUrl = "https://iqulcbywphjewenalnex.supabase.co";
 const supabaseKey =
@@ -18,18 +19,35 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 });
 
 export const uploadImage = async (file) => {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  console.log(session);
+  if (!file) return null;
 
-  const { data, error } = await supabase.storage
+  // Pobranie aktualnie zalogowanego użytkownika
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    console.error("❌ Błąd: Nie można pobrać użytkownika!");
+    return null;
+  }
+
+  // Generowanie unikalnej nazwy pliku
+  const fileExtension = file.name.split(".").pop(); // np. jpg, png
+  const uniqueFileName = `${user.id}-${uuidv4()}.${fileExtension}`;
+  const filePath = `images/${uniqueFileName}`;
+
+  // Upload pliku
+  const { error } = await supabase.storage
     .from("results")
-    .upload(`images/${file.name}`, file, {
+    .upload(filePath, file, {
       cacheControl: "3600",
       upsert: false,
     });
 
-  if (error) throw error;
-  return data.path; // Zwraca ścieżkę do zapisanego pliku
+  if (error) {
+    console.error("❌ Błąd uploadu:", error.message);
+    return null;
+  }
+
+  return filePath; // Zwraca ścieżkę do zapisanego pliku
 };
