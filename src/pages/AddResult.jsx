@@ -3,15 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase, uploadImage } from "../services/supabase";
 import BackButton from "../components/BackButton";
 import LoadingSpinner from "../components/LoadingSpinner";
-import {
-  Button,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Box,
-} from "@mui/material";
+import CategorySelect from "../components/CategorySelect";
+import { Button, TextField, Box } from "@mui/material";
 import "../styles/AddResult.scss";
 
 const AddResult = () => {
@@ -79,24 +72,10 @@ const AddResult = () => {
         </label>
         {file && <span className="file-name">{file.name}</span>}
 
-        <FormControl fullWidth className="file-select">
-          <InputLabel>Kategoria</InputLabel>
-          <Select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-            className="file-select"
-          >
-            <MenuItem value="">Wybierz kategorię</MenuItem>
-            <MenuItem value="usg">USG</MenuItem>
-            <MenuItem value="rtg">RTG</MenuItem>
-            <MenuItem value="blood-tests">Badania krwi</MenuItem>
-            <MenuItem value="tk">TK</MenuItem>
-            <MenuItem value="mri">MRI</MenuItem>
-            <MenuItem value="echo">ECHO SERCA</MenuItem>
-            <MenuItem value="other">INNE</MenuItem>
-          </Select>
-        </FormControl>
+        <CategorySelect
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
 
         <TextField
           label="Opis"

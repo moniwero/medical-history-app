@@ -72,7 +72,11 @@ const Results = () => {
   };
 
   if (loading) {
-    return <div className="results-loading">Ładowanie wyników...</div>;
+    return (
+      <div className="results-loading">
+        <h2>Ładowanie...</h2>
+      </div>
+    );
   }
 
   return (

@@ -49,9 +49,11 @@
 .text-field {
   border: 1px solid #3533cd !important;
   border-radius: 5px;
-  color: white;
   .MuiInputLabel-root {
     color: white !important;
+  }
+  .MuiOutlinedInput-root {
+    color: white;
   }
 }
 

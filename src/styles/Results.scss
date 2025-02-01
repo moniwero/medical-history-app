@@ -63,3 +63,13 @@
   font-size: 24px;
   cursor: pointer;
 }
+
+.results-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #d4d3d2;
+  font-size: 2rem;
+  font-weight: bold;
+}

@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const BackButton = ({ to = -1, label = "Wstecz" }) => {
+const BackButton = ({ to = -1, label = "🡸 Wstecz" }) => {
   const navigate = useNavigate();
 
   return (
