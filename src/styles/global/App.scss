@@ -1,0 +1,31 @@
+body {
+  background: linear-gradient(to right, #000000, #3533cd);
+  color: #d4d3d2;
+  font-family: "Open Sans", Arial, sans-serif;
+  height: 97vh;
+  margin: 0;
+  width: auto;
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-bottom: 1rem;
+    color: #d4d3d2;
+  }
+
+  .button {
+    cursor: pointer;
+    background: linear-gradient(to right, #89d7f5, #9d61f3);
+    font-size: 1.2rem !important;
+    padding: 10px 25px !important;
+    color: white !important;
+    border-radius: 40px !important;
+    font-weight: bold !important;
+
+    &:hover {
+      background: #3533cd !important;
+      color: rgb(199, 200, 213) !important;
+    }
+  }
+}

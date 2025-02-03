@@ -13,17 +13,21 @@
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  p {
+    padding-left: 10px;
+  }
 }
 
 .result-info {
   border: 1px solid #ccc;
-  width: 320px;
+  width: 500px;
   margin-right: 10px;
   padding: 3px;
 }
 
 .result-info:hover {
   background-color: #f0f0f0;
+  color: black;
 }
 
 .result-image img {
@@ -32,6 +36,11 @@
   margin-top: 10px;
 }
 
+.delete-button {
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
 .no-results {
   color: red;
 }
