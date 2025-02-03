@@ -3,10 +3,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  base: "./", 
   build: {
     outDir: "dist"
   },
   server: {
-    historyApiFallback: true // Obsługuje poprawnie trasy w React Router
+    historyApiFallback: true 
   }
 })
