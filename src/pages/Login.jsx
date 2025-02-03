@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../services/supabase";
 import { TextField, Button } from "@mui/material";
-import "../styles/Login.scss";
+import { handleLoginOrRegister } from "../services/user";
+import "../styles/pages/Login.scss";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,60 +10,9 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleLoginOrRegister = async () => {
-    setError(null);
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Wprowadź poprawny adres email.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Hasło musi mieć co najmniej 6 znaków.");
-      return;
-    }
-
-    try {
-      const { data: loginData, error: loginError } =
-        await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-      if (loginError) {
-        console.error("Login error:", loginError.message);
-
-        if (loginError.message === "Invalid login credentials") {
-          const { data: signUpData, error: signUpError } =
-            await supabase.auth.signUp({
-              email,
-              password,
-            });
-
-          if (signUpError) {
-            setError(signUpError.message);
-            console.error("Sign-up error:", signUpError.message);
-          } else {
-            console.log(
-              "Zarejestrowano i zalogowano użytkownika:",
-              signUpData.user
-            );
-            navigate("/dashboard");
-          }
-        } else {
-          setError(
-            "Wystąpił błąd logowania. Sprawdź swoje dane i spróbuj ponownie."
-          );
-        }
-      } else {
-        console.log("Użytkownik zalogowany:", loginData.user);
-        navigate("/dashboard");
-      }
-    } catch (err) {
-      console.error("Nieoczekiwany błąd:", err.message);
-      setError("Wystąpił nieoczekiwany błąd. Spróbuj ponownie.");
-    }
+  // Funkcja w services/user.js
+  const handleSubmit = async () => {
+    await handleLoginOrRegister(email, password, setError, navigate);
   };
 
   return (
@@ -91,11 +40,7 @@ const Login = () => {
         margin="normal"
       />
 
-      <Button
-        variant="contained"
-        className="button"
-        onClick={handleLoginOrRegister}
-      >
+      <Button variant="contained" className="button" onClick={handleSubmit}>
         Zaloguj
       </Button>
       <p className="login-info">

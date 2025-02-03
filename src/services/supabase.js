@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
+const supabaseKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;  
 
 export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {

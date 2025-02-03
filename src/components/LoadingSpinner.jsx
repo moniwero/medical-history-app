@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import "../styles/LoadingSpinner.scss";
+import "../styles/components/LoadingSpinner.scss";
 
 const LoadingSpinner = () => (
   <div className="loading-spinner">

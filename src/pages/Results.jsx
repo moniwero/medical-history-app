@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { supabase } from "../services/supabase";
+import {
+  fetchResults,
+  getPublicImageUrl,
+  handleDelete,
+} from "../services/result";
 import BackButton from "../components/BackButton";
 import DeleteButton from "../components/DeleteButton";
 import CustomModal from "../components/Modal";
-import "../styles/Results.scss";
+import LoadingPage from "../components/LoadingPage";
+import "../styles/pages/Results.scss";
 
 const Results = () => {
   const { category } = useParams();
@@ -12,74 +17,25 @@ const Results = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  // Funkcje w services/result.js
   useEffect(() => {
-    const fetchResults = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("results")
-        .select("*")
-        .ilike("category", category);
-
-      if (error) {
-        console.error("❌ Błąd pobierania wyników:", error.message);
-      } else {
-        setResults(data);
-      }
-
-      setLoading(false);
-    };
-
-    fetchResults();
+    // Pobieranie wyników dla danej kategorii
+    fetchResults(category, setResults, setLoading);
   }, [category]);
 
-  // 📤 Pobieranie publicznego URL przed otwarciem modala
+  // Otwieranie modala z obrazem
   const handleOpenModal = async (imagePath) => {
-    if (!imagePath) return;
-
-    const { data } = supabase.storage.from("results").getPublicUrl(imagePath);
-    setSelectedImage(data.publicUrl);
+    await getPublicImageUrl(imagePath, setSelectedImage);
   };
 
-  // 🗑 Usuwanie wyniku
-  const handleDelete = async (resultId, imagePath) => {
-    if (!window.confirm("Czy na pewno chcesz usunąć ten wynik?")) return;
-
-    try {
-      if (imagePath) {
-        const { error: storageError } = await supabase.storage
-          .from("results")
-          .remove([imagePath]);
-
-        if (storageError) {
-          console.error("❌ Błąd usuwania obrazu:", storageError.message);
-        } else {
-          console.log("✅ Obraz usunięty z Supabase Storage");
-        }
-      }
-
-      // 🗄️ Usunięcie wpisu z bazy
-      const { error: dbError } = await supabase
-        .from("results")
-        .delete()
-        .eq("id", resultId);
-      if (dbError) throw dbError;
-
-      console.log("✅ Wpis usunięty");
-      setResults((prevResults) => prevResults.filter((r) => r.id !== resultId));
-    } catch (error) {
-      console.error("❌ Błąd:", error.message);
-    }
+  // Obsługa usuwania wyniku
+  const handleDeleteResult = async (resultId, imagePath) => {
+    await handleDelete(resultId, imagePath, setResults);
   };
 
-  if (loading) {
-    return (
-      <div className="results-loading">
-        <h2>Ładowanie...</h2>
-      </div>
-    );
-  }
-
-  return (
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <div className="results-container">
       <div className="results-header">
         <BackButton to="/categories" />
@@ -94,9 +50,11 @@ const Results = () => {
               onClick={() => handleOpenModal(result.image_url)}
             >
               <p className="result-info">{result.description}</p>
-              <div>
+              <div className="delete-button">
                 <DeleteButton
-                  onClick={() => handleDelete(result.id, result.image_url)}
+                  onClick={() =>
+                    handleDeleteResult(result.id, result.image_url)
+                  }
                 />
               </div>
             </div>
@@ -106,7 +64,7 @@ const Results = () => {
         )}
       </div>
 
-      {/* 🖼 Modal ze zdjęciem */}
+      {/* Modal ze zdjęciem */}
       <CustomModal
         isOpen={!!selectedImage}
         onClose={() => setSelectedImage(null)}

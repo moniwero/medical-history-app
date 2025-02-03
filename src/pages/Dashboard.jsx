@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../styles/Dashboard.scss";
+import "../styles/pages/Dashboard.scss";
 import BackButton from "../components/BackButton";
 
 const Dashboard = () => {

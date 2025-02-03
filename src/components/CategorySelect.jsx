@@ -10,6 +10,7 @@ const CategorySelect = ({ value, onChange }) => {
         onChange={onChange}
         required
         className="file-select"
+        style={{ color: "white" }}
       >
         <MenuItem value="">Wybierz kategorię</MenuItem>
         <MenuItem value="usg">USG</MenuItem>

@@ -1,8 +1,9 @@
 import { Button, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from "../services/supabase";
-import "../styles/Home.scss";
+import { checkUser, listenToAuthChanges, handleLogout } from "../services/user";
+import LoadingPage from "../components/LoadingPage";
+import "../styles/pages/Home.scss";
 import HomeIlustration from "../assets/Home-img.jpg";
 
 const Home = () => {
@@ -10,61 +11,26 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Funkcja do weryfikacji stanu użytkownika
-  const checkUser = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (session) {
-      setUser(session.user); // Ustawienie użytkownika
-    } else {
-      // Próbuj odświeżyć sesję, jeśli jej nie ma
-      const { data: refreshedSession, error } =
-        await supabase.auth.refreshSession();
-      if (refreshedSession) {
-        setUser(refreshedSession.user);
-      } else {
-        console.error("Nie udało się odświeżyć sesji:", error);
-        setUser(null);
-      }
-    }
-
-    setLoading(false); // Koniec ładowania
-  };
-
+  //Funkcje w services/user.js !!
   useEffect(() => {
-    // Pierwsze sprawdzenie użytkownika
-    checkUser();
+    // Sprawdź stan użytkownika po załadowaniu komponentu
+    checkUser(setUser, setLoading);
 
-    // Nasłuchiwanie zmian w stanie użytkownika
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user ?? null);
-      }
-    );
+    // Nasłuchuj zmian w stanie uwierzytelnienia
+    const cleanup = listenToAuthChanges(setUser);
 
-    // Sprzątanie po nasłuchiwaniu
-    return () => {
-      authListener?.subscription?.unsubscribe();
-    };
+    // Sprzątanie przy odmontowywaniu komponentu
+    return cleanup;
   }, []);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    navigate("/login"); // Przeniesienie na stronę logowania
+  // Funkcja obsługująca wylogowanie
+  const handleLogoutClick = async () => {
+    await handleLogout(setUser);
   };
 
-  if (loading) {
-    return (
-      <div className="home-loading">
-        <h2>Ładowanie...</h2>
-      </div>
-    );
-  }
-
-  return (
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <div className="home-container">
       <div className="home-image">
         <img src={HomeIlustration} alt="Ilustracja Home" />
@@ -86,7 +52,7 @@ const Home = () => {
               <Button
                 variant="contained"
                 className="button"
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
               >
                 Wyloguj
               </Button>

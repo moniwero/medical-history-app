@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Modal, Box } from "@mui/material";
-import "../styles/Modal.scss";
+import "../styles/components/Modal.scss";
 
 const CustomModal = ({ isOpen, onClose, children }) => {
   return (

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
-import "../styles/Categories.scss";
+import "../styles/pages/Categories.scss";
 
 const Categories = () => {
   const navigate = useNavigate();

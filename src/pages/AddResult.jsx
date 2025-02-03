@@ -1,56 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase, uploadImage } from "../services/supabase";
+import { addResult } from "../services/result";
 import BackButton from "../components/BackButton";
 import LoadingSpinner from "../components/LoadingSpinner";
 import CategorySelect from "../components/CategorySelect";
 import { Button, TextField, Box } from "@mui/material";
-import "../styles/AddResult.scss";
+import "../styles/pages/AddResult.scss";
 
 const AddResult = () => {
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false); // Dodany stan ładowania
+  const [loading, setLoading] = useState(false); // Stan ładowania
 
   const navigate = useNavigate();
 
+  // Funkcja w services/result.js
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Rozpoczynamy ładowanie
-
-    try {
-      const {
-        data: { user },
-        error: authError,
-      } = await supabase.auth.getUser();
-      if (authError || !user) {
-        alert("Musisz być zalogowany, aby dodać wynik!");
-        setLoading(false);
-        return;
-      }
-
-      const imagePath = await uploadImage(file);
-      if (!imagePath) throw new Error("Błąd podczas przesyłania obrazu!");
-
-      const { error } = await supabase.from("results").insert([
-        {
-          category,
-          description,
-          image_url: imagePath,
-          user_id: user.id,
-        },
-      ]);
-
-      if (error) throw error;
-
-      alert("✅ Wynik dodany pomyślnie!");
-      navigate("/dashboard");
-    } catch (error) {
-      alert("❌ Błąd: " + error.message);
-    } finally {
-      setLoading(false); // Zakończenie ładowania
-    }
+    await addResult(file, category, description, setLoading, navigate);
   };
 
   return (
