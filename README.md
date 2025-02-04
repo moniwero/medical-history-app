@@ -44,8 +44,8 @@ npm install
 Skonfiguruj zmienne środowiskowe:
 Utwórz plik .env w głównym katalogu i uzupełnij go danymi:
 
-REACT_APP_SUPABASE_URL=twoja-url-supabase
-REACT_APP_SUPABASE_ANON_KEY=twoj-klucz-anonimowy
+VITE_SUPABASE_URL=twoja-url-supabase
+VITE_SUPABASE_ANON_KEY=twoj-klucz-anonimowy
 
 Uruchom aplikację:
 
@@ -59,11 +59,11 @@ Zmienna środowiskowa
 
 Opis
 
-REACT_APP_SUPABASE_URL
+VITE_APP_SUPABASE_URL
 
 URL Supabase
 
-REACT_APP_SUPABASE_ANON_KEY
+VITE_SUPABASE_ANON_KEY
 
 Klucz anonimizacyjny do Supabase
 
