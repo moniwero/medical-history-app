@@ -1,96 +1,88 @@
-Moj pierwszy projekt w React!
+# 📌 Medical History App
 
-📌 Dokumentacja i README
+### Mój pierwszy projekt w React! 🚀
 
-📖 Opis projektu
+Aplikacja webowa do zarządzania wynikami badań w określonych kategoriach. Umożliwia dodawanie, przeglądanie oraz usuwanie wyników wraz z przypisanymi obrazami.
 
-Aplikacja webowa służy do zarządzania wynikami badań w określonych kategoriach. Pozwala użytkownikom na dodawanie, przeglądanie oraz usuwanie wyników wraz z przypisanymi obrazami. Aplikacja została zbudowana z wykorzystaniem React.js, React Router, Material UI oraz Supabase jako backendu do przechowywania danych i plików.
+## 📖 Opis projektu
 
-Projekt został stworzony przy użyciu React + Vite, co zapewnia szybkie działanie i łatwą konfigurację środowiska deweloperskiego.
+Aplikacja została stworzona przy użyciu **React.js** i **Vite**, co zapewnia szybkie działanie oraz łatwą konfigurację środowiska deweloperskiego. Do obsługi backendu wykorzystano **Supabase**.
 
-🚀 Technologie użyte w projekcie
+## 🛠 Technologie
 
-- React.js – frontend aplikacji
+- **React.js** – frontend aplikacji
+- **Vite** – szybkie środowisko deweloperskie
+- **React Router** – nawigacja między stronami
+- **Material UI (MUI)** – komponenty UI
+- **Supabase** – baza danych i przechowywanie obrazów
+- **SCSS** – stylowanie aplikacji
 
-- Vite – szybkie środowisko deweloperskie
-
-- React Router – nawigacja między stronami
-
-- Material UI (MUI) – komponenty UI
-
-- Supabase – baza danych oraz przechowywanie obrazów
-
-- SCSS – stylowanie aplikacji
-
-🛠 Wymagania systemowe
+## ⚙️ Wymagania systemowe
 
 Aby uruchomić projekt lokalnie, wymagane są:
 
-- Node.js w wersji 16+
+- **Node.js** (v16+)
+- **NPM** lub **Yarn**
 
-- NPM lub Yarn
+## 📂 Instalacja i uruchomienie
 
-📂 Instalacja i uruchomienie
+1. **Sklonuj repozytorium:**
 
-Sklonuj repozytorium:
+   ```bash
+   git clone https://github.com/moniwero/medical-history-app.git
+   cd medical-history-app
+   ```
 
-git clone https://github.com/moniwero/medical-history-app.git
-cd medical-history-app
+2. **Zainstaluj zależności:**
 
-Zainstaluj zależności:
+   ```bash
+   npm install
+   ```
 
-npm install
+3. **Skonfiguruj zmienne środowiskowe:**
 
-Skonfiguruj zmienne środowiskowe:
-Utwórz plik .env w głównym katalogu i uzupełnij go danymi:
+   Utwórz plik `.env` w katalogu głównym i dodaj:
 
-VITE_SUPABASE_URL=twoja-url-supabase
-VITE_SUPABASE_ANON_KEY=twoj-klucz-anonimowy
+   ```env
+   VITE_SUPABASE_URL=twoja-url-supabase
+   VITE_SUPABASE_ANON_KEY=twoj-klucz-anonimowy
+   ```
 
-Uruchom aplikację:
+4. **Uruchom aplikację:**
 
-npm run dev
+   ```bash
+   npm run dev
+   ```
 
-🔧 Opcje konfiguracyjne
+## 🎯 Funkcjonalności
 
-Wszystkie konfiguracje środowiskowe znajdują się w pliku .env.
+- 📌 **Przeglądanie wyników** – Użytkownik może zobaczyć wyniki dla wybranej kategorii.
+- ➕ **Dodawanie wyników** – Możliwość dodania wyniku wraz z obrazem.
+- ❌ **Usuwanie wyników** – Opcja usunięcia wyników wraz z obrazami.
+- 🔍 **Podgląd obrazów** – Powiększanie i przeglądanie obrazów w modalu.
 
-Zmienna środowiskowa
+## 📌 Struktura projektu
 
-Opis
-
-VITE_APP_SUPABASE_URL
-
-URL Supabase
-
-VITE_SUPABASE_ANON_KEY
-
-Klucz anonimizacyjny do Supabase
-
-🎯 Przypadki użycia
-
-Przeglądanie wyników – użytkownik może zobaczyć wyniki dla wybranej kategorii.
-
-Dodawanie nowych wyników – użytkownik może dodać nowy wynik i załączyć obraz.
-
-Usuwanie wyników – użytkownik może usunąć wynik wraz z obrazem.
-
-Podgląd obrazów – użytkownik może powiększyć i przeglądać obrazy wyników w modalu.
-
-📌 Struktura projektu
-
+```
 📂 src
-├── 📂 components # Komponenty UI
-├── 📂 pages # Widoki stron
-├── 📂 services # Konfiguracja Supabase, funkcje dla user i result
-├── 📂 styles # Pliki SCSS
-├── App.js # Główny komponent aplikacji
-├── main.jsx # Punkt wejściowy aplikacji
+├── 📂 components   # Komponenty UI
+├── 📂 pages        # Widoki stron
+├── 📂 services     # Konfiguracja Supabase, funkcje dla user i result
+├── 📂 styles       # Pliki SCSS
+├── App.js         # Główny komponent aplikacji
+├── main.jsx       # Punkt wejściowy aplikacji
+```
 
-📝 Komentarze w kodzie
+## 📝 Komentarze w kodzie
 
-Kod został opatrzony komentarzami, szczególnie w miejscach, gdzie logika może być trudniejsza do zrozumienia, np. obsługa modala, usuwanie wyników czy konfiguracja Supabase.
+Kod jest opatrzony komentarzami, szczególnie w kluczowych miejscach, np. obsługa modala, usuwanie wyników czy konfiguracja Supabase.
 
-📬 Kontakt
+## 📬 Kontakt
 
-W razie pytań lub sugestii skontaktuj się poprzez e-mail: twoj-email@example.com lub otwórz issue na GitHubie.
+Masz pytania lub sugestie? Skontaktuj się:
+📧 **Email:** mmonisiabb@gmail.com  
+🐙 **GitHub Issues:** [Zgłoś problem](https://github.com/moniwero/medical-history-app/issues)
+
+---
+
+Dzięki za zainteresowanie moim projektem! 😊
