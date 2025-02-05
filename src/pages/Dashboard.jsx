@@ -13,8 +13,7 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-content">
-        <div className="dashboard-image">
-        </div>
+        <div className="dashboard-image"></div>
 
         <div className="dashboard-buttons">
           <Button
