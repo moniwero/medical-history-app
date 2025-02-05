@@ -25,7 +25,10 @@ export const addResult = async (
 
     // Przesłanie obrazu
     const imagePath = await uploadImage(file);
-    if (!imagePath) throw new Error("Błąd podczas przesyłania obrazu!");
+    if (!imagePath)
+      throw new Error(
+        "Błąd podczas przesyłania obrazu! Dozwolone pliki jpg, jpeg, png."
+      );
 
     const { error } = await supabase.from("results").insert([
       {

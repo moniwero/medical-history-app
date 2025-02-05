@@ -20,12 +20,12 @@ export const uploadImage = async (file) => {
     error: userError,
   } = await supabase.auth.getUser();
   if (userError || !user) {
-    console.error("❌ Błąd: Nie można pobrać użytkownika!");
+    alert(" Błąd: Nie można pobrać użytkownika!");
     return null;
   }
 
   // Generowanie unikalnej nazwy pliku
-  const fileExtension = file.name.split(".").pop(); // np. jpg, png
+  const fileExtension = file.name.split(".").pop();
   const uniqueFileName = `${user.id}-${uuidv4()}.${fileExtension}`;
   const filePath = `images/${uniqueFileName}`;
 
