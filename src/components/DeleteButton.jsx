@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined"; // Import ikony kosza
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 const DeleteButton = ({ onClick }) => {
   return (
@@ -10,14 +10,14 @@ const DeleteButton = ({ onClick }) => {
         onClick();
       }}
       className="delete-button"
-      sx={{ color: "red" }} // Ustawienie koloru samej ikony
+      sx={{ color: "red" }}
     >
       <DeleteIcon />
     </IconButton>
   );
 };
 
-// 📌 PropTypes dla walidacji propsów
+// PropTypes dla walidacji propsów
 DeleteButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };

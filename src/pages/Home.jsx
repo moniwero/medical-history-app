@@ -13,10 +13,10 @@ const Home = () => {
 
   //Funkcje w services/user.js !!
   useEffect(() => {
-    // Sprawdź stan użytkownika po załadowaniu komponentu
+    // Sprawdza stan użytkownika po załadowaniu komponentu
     checkUser(setUser, setLoading);
 
-    // Nasłuchuj zmian w stanie uwierzytelnienia
+    // Nasłuchuje zmiany w stanie uwierzytelnienia
     const cleanup = listenToAuthChanges(setUser);
 
     // Sprzątanie przy odmontowywaniu komponentu
