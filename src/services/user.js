@@ -79,7 +79,7 @@ export const handleLoginOrRegister = async (
           });
 
         if (signUpError) {
-          setError(signUpError.message);
+          setError("Użytkownik już istnieje. Wprowadż poprawne hasło.");
           console.error("Sign-up error:", signUpError.message);
         } else {
           console.log(
