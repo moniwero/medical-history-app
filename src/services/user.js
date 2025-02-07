@@ -1,6 +1,6 @@
 import { supabase } from "./supabase";
 
-// Sprawdzenie użytkownika
+// Sprawdzenie użytkownika, użycie w Home.jsx
 export const checkUser = async (setUser, setLoading) => {
   const {
     data: { session },
@@ -23,7 +23,7 @@ export const checkUser = async (setUser, setLoading) => {
   setLoading(false); // Koniec ładowania
 };
 
-// Nasłuchiwanie zmian stanu użytkownika
+// Nasłuchiwanie zmian stanu użytkownika, użycie w Home.jsx
 export const listenToAuthChanges = (setUser) => {
   const { data: authListener } = supabase.auth.onAuthStateChange(
     (event, session) => {
@@ -35,13 +35,13 @@ export const listenToAuthChanges = (setUser) => {
   return () => authListener?.subscription?.unsubscribe();
 };
 
-// Wylogowanie
+// Wylogowanie, użycie w Home.jsx
 export const handleLogout = async (setUser) => {
   await supabase.auth.signOut();
   setUser(null);
 };
 
-// Logowanie i rejestracja
+// Logowanie i rejestracja, użycie w Login.jsx
 export const handleLoginOrRegister = async (
   email,
   password,

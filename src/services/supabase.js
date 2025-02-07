@@ -11,6 +11,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
   },
 });
 
+// przesyłanie obrazu, zwracanie ścieśki, uzyte w result.js
 export const uploadImage = async (file) => {
   if (!file) return null;
 

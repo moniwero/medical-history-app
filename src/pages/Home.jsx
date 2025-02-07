@@ -11,18 +11,20 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //Funkcje w services/user.js !!
+  //checkUser w services/user.js
   useEffect(() => {
     // Sprawdza stan użytkownika po załadowaniu komponentu
     checkUser(setUser, setLoading);
 
+    // listenToAuthChanges w services/user.js
     // Nasłuchuje zmiany w stanie uwierzytelnienia
     const cleanup = listenToAuthChanges(setUser);
 
-    // Sprzątanie przy odmontowywaniu komponentu
+    // usuwanie nasłuchiwania przy odmontowywaniu komponentu
     return cleanup;
   }, []);
 
+  //  handleLogout w services/user.js
   // Funkcja obsługująca wylogowanie
   const handleLogoutClick = async () => {
     await handleLogout(setUser);

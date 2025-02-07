@@ -4,9 +4,11 @@ import {
   fetchResults,
   getPublicImageUrl,
   handleDelete,
+  handleEdit,
 } from "../services/result";
 import BackButton from "../components/BackButton";
 import DeleteButton from "../components/DeleteButton";
+import EditButton from "../components/EditButton"; // Import nowego komponentu
 import CustomModal from "../components/Modal";
 import LoadingPage from "../components/LoadingPage";
 import "../styles/pages/Results.scss";
@@ -16,21 +18,33 @@ const Results = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [editingDescription, setEditingDescription] = useState(null);
+  const [newDescription, setNewDescription] = useState("");
 
-  // Funkcje w services/result.js
+  // fetchResults w services/result.js
   useEffect(() => {
-    // Pobieranie wyników dla danej kategorii
+    // Pobieranie wyników dla danej kategorii i ustawia results
     fetchResults(category, setResults, setLoading);
   }, [category]);
 
-  // Otwieranie modala z obrazem
+  // Otwieranie modala z obrazem, getPublicImageUrl w services/result.js
   const handleOpenModal = async (imagePath) => {
     await getPublicImageUrl(imagePath, setSelectedImage);
   };
 
-  // Obsługa usuwania wyniku
+  // Obsługa usuwania wyniku, handleDelete w result.js
   const handleDeleteResult = async (resultId, imagePath) => {
     await handleDelete(resultId, imagePath, setResults);
+  };
+
+  // Obsługa edycji opisu, handleEdit w result.js
+  const handleEditDescription = async (resultId) => {
+    if (newDescription.trim() === "") {
+      alert("Opis nie może być pusty!");
+      return;
+    }
+    await handleEdit(resultId, newDescription, setResults);
+    setEditingDescription(null); // Zamykanie trybu edycji
   };
 
   return loading ? (
@@ -49,8 +63,41 @@ const Results = () => {
               className="result-item"
               onClick={() => handleOpenModal(result.image_url)}
             >
-              <p className="result-info">{result.description}</p>
-              <div className="delete-button">
+              {editingDescription === result.id ? (
+                <div className="edit-description">
+                  <input
+                    type="text"
+                    value={newDescription}
+                    onChange={(e) => setNewDescription(e.target.value)}
+                    onClick={(e) => e.stopPropagation()} // Zapobiega otwieraniu obrazu przy kliknięciu na input
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Zapobiega otwieraniu obrazu
+                      handleEditDescription(result.id);
+                    }}
+                  >
+                    Zapisz
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Zapobiega otwieraniu obrazu
+                      setEditingDescription(null);
+                    }}
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              ) : (
+                <p className="result-info">{result.description}</p>
+              )}
+              <div className="results-buttons">
+                <EditButton
+                  onClick={() => {
+                    setEditingDescription(result.id);
+                    setNewDescription(result.description);
+                  }}
+                />
                 <DeleteButton
                   onClick={() =>
                     handleDeleteResult(result.id, result.image_url)

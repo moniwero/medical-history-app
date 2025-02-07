@@ -8,16 +8,16 @@ import { Button, TextField, Box } from "@mui/material";
 import "../styles/pages/AddResult.scss";
 
 const AddResult = () => {
-  const [file, setFile] = useState(null);
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
+  const [file, setFile] = useState(null); // plik
+  const [category, setCategory] = useState(""); //kategoria
+  const [description, setDescription] = useState(""); // opis
   const [loading, setLoading] = useState(false); // Stan ładowania
 
   const navigate = useNavigate();
 
-  // Funkcja w services/result.js
+  // addResult w services/result.js
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //Zapobiega domyślnemu odświeżeniu strony
     await addResult(file, category, description, setLoading, navigate);
   };
 
@@ -35,7 +35,7 @@ const AddResult = () => {
           onChange={(e) => setFile(e.target.files[0])}
           required
         />
-        <label htmlFor="file-upload" className="file-label">
+        <label htmlFor="file-upload" className="file-label" required>
           Wybierz plik
         </label>
         {file && <span className="file-name">{file.name}</span>}
