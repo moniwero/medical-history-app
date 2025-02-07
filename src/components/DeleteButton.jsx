@@ -17,7 +17,7 @@ const DeleteButton = ({ onClick }) => {
   );
 };
 
-// PropTypes dla walidacji propsów
+// Walidacja propsów
 DeleteButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };

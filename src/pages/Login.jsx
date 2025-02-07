@@ -10,7 +10,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Funkcja w services/user.js
+  //  handleLoginOrRegister w services/user.js
   const handleSubmit = async () => {
     await handleLoginOrRegister(email, password, setError, navigate);
   };

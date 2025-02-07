@@ -15,7 +15,7 @@ const CustomModal = ({ isOpen, onClose, children }) => {
   );
 };
 
-// Typowanie PropTypes
+// Walidacja propsów
 CustomModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

@@ -20,27 +20,82 @@
 
 .result-info {
   border: 1px solid #ccc;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   margin-right: 10px;
   padding: 3px;
+
+  &:hover {
+    background-color: #f0f0f0;
+    color: black;
+  }
 }
 
-.result-info:hover {
-  background-color: #f0f0f0;
-  color: black;
-}
-
-.result-image img {
-  width: 100%;
-  height: auto;
-  margin-top: 10px;
-}
-
-.delete-button {
+.results-buttons {
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+
+  .edit-button {
+    &:hover {
+      background-color: #3533cd;
+      color: white;
+    }
+  }
+  .delete-button {
+    &:hover {
+      background-color: #3533cd;
+      color: white;
+    }
+  }
 }
+
+.edit-description {
+  max-width: 633px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  flex: 1;
+  flex-wrap: wrap;
+
+  input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    outline: none;
+    min-width: 247px;
+
+    &:focus {
+      border-color: #007bff;
+    }
+  }
+
+  button {
+    padding: 7px 11px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+
+    &:last-child {
+      background-color: #6c757d;
+
+      &:hover {
+        background-color: #5a6268;
+      }
+    }
+  }
+}
+
 .no-results {
   color: red;
 }

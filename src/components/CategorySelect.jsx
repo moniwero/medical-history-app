@@ -10,7 +10,7 @@ const CategorySelect = ({ value, onChange }) => {
         onChange={onChange}
         required
         className="file-select"
-        style={{ color: "white" }}
+        sx={{ color: "white" }}
       >
         <MenuItem value="">Wybierz kategorię</MenuItem>
         <MenuItem value="usg">USG</MenuItem>
@@ -25,7 +25,7 @@ const CategorySelect = ({ value, onChange }) => {
   );
 };
 
-//Dodanie walidacji propsów
+// Walidacja propsów
 CategorySelect.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

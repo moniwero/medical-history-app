@@ -1,88 +1,90 @@
 # 📌 Medical History App
 
-### Mój pierwszy projekt w React! 🚀
+### My first React project! 🚀
 
-Aplikacja webowa do zarządzania wynikami badań w określonych kategoriach. Umożliwia dodawanie, przeglądanie oraz usuwanie wyników wraz z przypisanymi obrazami.
+A web application for managing medical test results in specific categories. It allows users to add, view, and delete results along with associated images.
 
-## 📖 Opis projektu
+## 📖 Project Description
 
-Aplikacja została stworzona przy użyciu **React.js** i **Vite**, co zapewnia szybkie działanie oraz łatwą konfigurację środowiska deweloperskiego. Do obsługi backendu wykorzystano **Supabase**.
+The application was built using **React.js** and **Vite**, ensuring fast performance and easy development environment configuration. **Supabase** was used for backend handling.
 
-## 🛠 Technologie
+## 🛠 Technologies
 
-- **React.js** – frontend aplikacji
-- **Vite** – szybkie środowisko deweloperskie
-- **React Router** – nawigacja między stronami
-- **Material UI (MUI)** – komponenty UI
-- **Supabase** – baza danych i przechowywanie obrazów
-- **SCSS** – stylowanie aplikacji
+- **React.js** – Frontend of the application
+- **Vite** – Fast development environment
+- **React Router** – Navigation between pages
+- **Material UI (MUI)** – UI components
+- **Supabase** – Database and image storage
+- **SCSS** – Application styling
 
-## ⚙️ Wymagania systemowe
+## ⚙️ System Requirements
 
-Aby uruchomić projekt lokalnie, wymagane są:
+To run the project locally, the following are required:
 
 - **Node.js** (v16+)
 - **NPM** lub **Yarn**
 
-## 📂 Instalacja i uruchomienie
+## 📂 Installation and Setup
 
-1. **Sklonuj repozytorium:**
+1. **Clone the repository:**
 
    ```bash
    git clone https://github.com/moniwero/medical-history-app.git
    cd medical-history-app
    ```
 
-2. **Zainstaluj zależności:**
+2. **Install dependencies:**
 
    ```bash
    npm install
    ```
 
-3. **Skonfiguruj zmienne środowiskowe:**
+3. **Configure environment variables:**
 
-   Utwórz plik `.env` w katalogu głównym i dodaj:
+   Create a `.env` file in the root directory and add:
 
    ```env
-   VITE_SUPABASE_URL=twoja-url-supabase
-   VITE_SUPABASE_ANON_KEY=twoj-klucz-anonimowy
+   VITE_SUPABASE_URL=your-supabase-url
+   VITE_SUPABASE_ANON_KEY=your-anon-key
    ```
 
-4. **Uruchom aplikację:**
+4. **Run the application:**
 
    ```bash
    npm run dev
    ```
 
-## 🎯 Funkcjonalności
+## 🎯 Features
 
-- 📌 **Przeglądanie wyników** – Użytkownik może zobaczyć wyniki dla wybranej kategorii.
-- ➕ **Dodawanie wyników** – Możliwość dodania wyniku wraz z obrazem.
-- ❌ **Usuwanie wyników** – Opcja usunięcia wyników wraz z obrazami.
-- 🔍 **Podgląd obrazów** – Powiększanie i przeglądanie obrazów w modalu.
+- 📌 **View results** – Users can view results for a selected category.
+- ➕ **Add results** – Ability to add a result along with an image.
+- ❌ **Delete results** – Option to delete results along with their images.
+- ✏️ **Edit results** – Users can edit the description of an existing result.
+- 🔍 **Image preview** – Zoom and view images in a modal.
 
-## 📌 Struktura projektu
+## 📌 Project Structure
 
 ```
 📂 src
-├── 📂 components   # Komponenty UI
-├── 📂 pages        # Widoki stron
-├── 📂 services     # Konfiguracja Supabase, funkcje dla user i result
-├── 📂 styles       # Pliki SCSS
-├── App.js         # Główny komponent aplikacji
-├── main.jsx       # Punkt wejściowy aplikacji
+├── 📂 assets       # images
+├── 📂 components   # UI components
+├── 📂 pages        # Page views
+├── 📂 services     # Supabase configuration, user and result functions
+├── 📂 styles       # SCSS files
+├── main.jsx         # Application entry point
+├── router.jsx       # Routing logic
 ```
 
-## 📝 Komentarze w kodzie
+## 📝 Code Comments
 
-Kod jest opatrzony komentarzami, szczególnie w kluczowych miejscach, np. obsługa modala, usuwanie wyników czy konfiguracja Supabase.
+The code is annotated with comments, especially in key areas such as modal handling, result deletion, and Supabase configuration.
 
-## 📬 Kontakt
+## 📬 Contact
 
-Masz pytania lub sugestie? Skontaktuj się:
+Have questions or suggestions? Get in touch:
 📧 **Email:** mmonisiabb@gmail.com  
-🐙 **GitHub Issues:** [Zgłoś problem](https://github.com/moniwero/medical-history-app/issues)
+🐙 **GitHub Issues:** [Report an issue](https://github.com/moniwero/medical-history-app/issues)
 
 ---
 
-Dzięki za zainteresowanie moim projektem! 😊
+Thank you for your interest in my project! 😊
